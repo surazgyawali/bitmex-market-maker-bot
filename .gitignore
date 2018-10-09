@@ -2,3 +2,6 @@
 *.pyo
 /venv/
 /project-desc.txt
+dist/
+*.egg-info/
+.idea/
