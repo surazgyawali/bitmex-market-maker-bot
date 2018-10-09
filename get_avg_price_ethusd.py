@@ -11,19 +11,15 @@ URLS = [GDAX_PRICE_URL,KRAKEN_PRICE_URL,BITSTAMP_PRICE_URL]
 def get_price(url):
     response = requests.get(url)
     if response.status_code == 200:
-        data = response.json()
+        data = json.loads(response.content.decode('UTF-8'))
     else:
         return
-    price = data.get('result').get('price')
-    return price
+    return data.get('result').get('price')
 
 
 def get_avg_index(URLS):
-    prices = []
-    for url in URLS:
-        price = get_price(url)
-        if price:
-            prices.append(price)
+    prices = [get_price(url) for url in URLS if get_price(url)]
+    print(prices)
     avg_price = sum(prices)/len(prices)
     avg_price = math.toNearest(avg_price,0.01)
     return avg_price
